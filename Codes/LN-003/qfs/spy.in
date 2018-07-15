@@ -1,0 +1,29 @@
+#include<cstdio>
+const int MAXN = 50005;
+int n, a[MAXN], L, M, stk[MAXN], tp;
+bool check(int mid) {
+    int ans = 0;
+    tp = 0;
+    stk[++ tp] = 0;
+    for(int i = 1; i <= n; i ++)
+    {
+        if(a[i] - a[stk[tp]] >= mid) stk[++ tp] = i;
+        else ++ ans;
+    }
+    while(L - a[stk[tp]] < mid) -- tp, ++ ans;
+    return (ans <= M);
+}
+int main()
+{
+    scanf("%d%d%d", &L, &n, &M);
+    for(int i = 1; i <= n; i ++)
+        scanf("%d", &a[i]);
+    int l = 0, r = L, mid, ans = 0;
+    while(l <= r) {
+        mid = (l + r) >> 1;
+        if(check(mid)) {ans = mid; l = mid+1;}
+        else r = mid-1;
+    }
+    printf("%d\n", ans);
+    return 0;
+}
